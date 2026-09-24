@@ -212,64 +212,211 @@ export default function App() {
 
         {/* CONTENT */}
         <main className="flex-1 p-3 sm:p-6 overflow-y-auto bg-gray-50">
+
           {/* ==== DASHBOARD ==== */}
           {activeTab === 'dashboard' && (
             <div className="space-y-4 sm:space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm hover:border-red-300 hover:shadow-md transition">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-xs sm:text-sm text-gray-500">Total Records</p>
-                      <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-1">{records.length}</p>
-                    </div>
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <svg className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+              {/* Welcome Banner */}
+              <div className="bg-gradient-to-r from-red-600 to-red-700 rounded-2xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden">
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+                <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+                      Welcome back, {user?.name?.split(' ')[0] || 'User'}! 👋
+                    </h1>
+                    <p className="text-red-100 text-sm sm:text-base">
+                      Here's your Salesforce data overview
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setActiveTab('records')}
+                    className="self-start sm:self-auto flex items-center gap-2 bg-white text-red-600 px-5 py-2.5 rounded-xl hover:bg-red-50 font-semibold shadow-md transition text-sm"
+                  >
+                    View Records
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Total Records */}
+                <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-red-300 transition-all">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-md">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </div>
+                    <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                      Live
+                    </span>
                   </div>
+                  <p className="text-sm text-gray-500 mb-1">Total Records</p>
+                  <p className="text-3xl font-bold text-gray-900">{records.length}</p>
                 </div>
 
-                <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm hover:border-red-300 hover:shadow-md transition">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-xs sm:text-sm text-gray-500">Current Object</p>
-                      <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-1 truncate">{object}</p>
-                    </div>
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <svg className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* Current Object */}
+                <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-red-300 transition-all">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-md">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
                       </svg>
                     </div>
+                    <button
+                      onClick={() => setActiveTab('records')}
+                      className="text-xs font-medium text-red-600 hover:text-red-700 flex items-center gap-1 transition"
+                    >
+                      View
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
                   </div>
+                  <p className="text-sm text-gray-500 mb-1">Current Object</p>
+                  <p className="text-2xl font-bold text-gray-900 truncate">{object}</p>
                 </div>
 
-                <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm hover:border-red-300 hover:shadow-md transition sm:col-span-2 lg:col-span-1">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-xs sm:text-sm text-gray-500">Auth Method</p>
-                      <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-1">OAuth 2.0</p>
-                    </div>
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <svg className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* Auth Method */}
+                <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-red-300 transition-all">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-md">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
                     </div>
+                    <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                      Secure
+                    </span>
                   </div>
+                  <p className="text-sm text-gray-500 mb-1">Auth Method</p>
+                  <p className="text-2xl font-bold text-gray-900">OAuth 2.0</p>
+                </div>
+
+                {/* Logged in User */}
+                <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-red-300 transition-all">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-md">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 mb-1">Logged in as</p>
+                  <p className="text-base font-bold text-gray-900 truncate">{user?.name || 'User'}</p>
+                  <p className="text-xs text-gray-500 truncate">{user?.email || ''}</p>
                 </div>
               </div>
 
-              <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
-                <div className="flex flex-wrap gap-2 sm:gap-3">
-                  <button onClick={() => setActiveTab('records')} className="px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-xs sm:text-sm font-medium shadow-sm">
-                    View Records
+              {/* Quick Actions */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-gray-900">Quick Actions</h3>
+                  <span className="text-xs text-gray-500">Shortcuts</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  <button
+                    onClick={() => { setActiveTab('records'); setTimeout(() => setModal({ mode: 'create' }), 100); }}
+                    className="flex items-center gap-3 p-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition shadow-sm hover:shadow-lg text-left"
+                  >
+                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">New Record</p>
+                      <p className="text-xs text-red-100">Create {object}</p>
+                    </div>
                   </button>
-                  <button onClick={() => { setActiveTab('records'); setTimeout(() => setModal({ mode: 'create' }), 100); }} className="px-3 sm:px-4 py-2 border border-red-600 text-red-600 rounded-lg hover:bg-red-50 transition text-xs sm:text-sm font-medium">
-                    Create New Record
+
+                  <button
+                    onClick={() => setActiveTab('records')}
+                    className="flex items-center gap-3 p-4 bg-white border-2 border-gray-200 text-gray-900 rounded-xl hover:border-red-300 hover:bg-red-50 transition text-left"
+                  >
+                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">View All Records</p>
+                      <p className="text-xs text-gray-500">Browse {object}</p>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveTab('profile')}
+                    className="flex items-center gap-3 p-4 bg-white border-2 border-gray-200 text-gray-900 rounded-xl hover:border-red-300 hover:bg-red-50 transition text-left"
+                  >
+                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">My Profile</p>
+                      <p className="text-xs text-gray-500">View account</p>
+                    </div>
                   </button>
                 </div>
               </div>
+
+              {/* Recent Activity */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-gray-900">Recent Activity</h3>
+                  <span className="text-xs text-gray-500">Latest 5 records</span>
+                </div>
+                {records.length > 0 ? (
+                  <div className="space-y-2">
+                    {records.slice(0, 5).map((rec) => (
+                      <div
+                        key={rec.Id}
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 transition border border-transparent hover:border-red-100"
+                      >
+                        <div className="w-9 h-9 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-gray-900 truncate">
+                            {rec.Name || rec.Subject || rec.CaseNumber || rec.Id}
+                          </p>
+                          <p className="text-xs text-gray-500 truncate">
+                            {rec.Industry || rec.StageName || rec.Status || rec.Email || 'Record'}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => { setActiveTab('records'); }}
+                          className="text-xs text-red-600 hover:text-red-700 font-medium flex-shrink-0"
+                        >
+                          View →
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 mx-auto bg-red-50 rounded-full flex items-center justify-center mb-3">
+                      <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                      </svg>
+                    </div>
+                    <p className="text-sm text-gray-500">No records yet</p>
+                    <p className="text-xs text-gray-400 mt-1">Create your first {object}</p>
+                  </div>
+                )}
+              </div>
+
             </div>
           )}
 
@@ -370,65 +517,330 @@ export default function App() {
 
           {/* ==== SETTINGS ==== */}
           {activeTab === 'settings' && (
-            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 max-w-2xl shadow-sm">
-              <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-4">Settings</h3>
-              <div className="space-y-3 sm:space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">API Endpoint</p>
-                    <p className="text-xs text-gray-500">Backend server URL</p>
+            <div className="space-y-4 sm:space-y-6 max-w-4xl">
+
+              {/* Header */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <h2 className="text-xl font-bold text-gray-900">Settings</h2>
+                <p className="text-sm text-gray-500 mt-1">Manage your application preferences and configurations</p>
+              </div>
+
+              {/* Application Info */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                   </div>
-                  <code className="text-xs bg-red-50 border border-red-200 px-2 py-1 rounded text-red-700 self-start sm:self-auto break-all">
-                    {import.meta.env.VITE_API_URL || 'http://localhost:5000'}
-                  </code>
+                  <h3 className="text-lg font-bold text-gray-900">Application Information</h3>
                 </div>
-                <div className="flex items-center justify-between py-3 border-b border-gray-100">
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">OAuth Provider</p>
-                    <p className="text-xs text-gray-500">Authentication service</p>
+                <div className="space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">App Name</p>
+                      <p className="text-xs text-gray-500">Application title</p>
+                    </div>
+                    <span className="text-sm text-gray-700 font-medium">Salesforce CRUD</span>
                   </div>
-                  <span className="text-sm text-gray-700">Salesforce</span>
-                </div>
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">Version</p>
-                    <p className="text-xs text-gray-500">Application version</p>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">Version</p>
+                      <p className="text-xs text-gray-500">Current release</p>
+                    </div>
+                    <span className="text-sm text-gray-700">1.0.0</span>
                   </div>
-                  <span className="text-sm text-gray-700">1.0.0</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">API Endpoint</p>
+                      <p className="text-xs text-gray-500">Backend server URL</p>
+                    </div>
+                    <code className="text-xs bg-red-50 border border-red-200 px-2 py-1 rounded text-red-700 self-start sm:self-auto break-all">
+                      {import.meta.env.VITE_API_URL || 'http://localhost:5000'}
+                    </code>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 gap-2">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">Environment</p>
+                      <p className="text-xs text-gray-500">Deployment type</p>
+                    </div>
+                    <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full self-start sm:self-auto">
+                      Production
+                    </span>
+                  </div>
                 </div>
               </div>
+
+              {/* Authentication */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900">Authentication</h3>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">OAuth Provider</p>
+                      <p className="text-xs text-gray-500">Identity service</p>
+                    </div>
+                    <span className="text-sm text-gray-700">Salesforce</span>
+                  </div>
+                  <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">Auth Flow</p>
+                      <p className="text-xs text-gray-500">OAuth 2.0 grant type</p>
+                    </div>
+                    <span className="text-sm text-gray-700">Authorization Code + PKCE</span>
+                  </div>
+                  <div className="flex items-center justify-between py-3">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">Session Status</p>
+                      <p className="text-xs text-gray-500">Current authentication</p>
+                    </div>
+                    <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                      Active
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Preferences */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900">Preferences</h3>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">Records Per Page</p>
+                      <p className="text-xs text-gray-500">Default pagination size</p>
+                    </div>
+                    <select
+                      value={pageSize}
+                      onChange={(e) => setPageSize(Number(e.target.value))}
+                      className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    >
+                      <option value={10}>10</option>
+                      <option value={20}>20</option>
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">Default Object</p>
+                      <p className="text-xs text-gray-500">Object shown on load</p>
+                    </div>
+                    <span className="text-sm text-gray-700">{object}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-3">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">Notifications</p>
+                      <p className="text-xs text-gray-500">Toast notifications</p>
+                    </div>
+                    <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Enabled</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Danger Zone */}
+              <div className="bg-white p-6 rounded-xl border border-red-200 shadow-sm">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900">Danger Zone</h3>
+                    <p className="text-xs text-gray-500">Irreversible actions</p>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div>
+                    <p className="font-medium text-gray-900 text-sm">Sign out of all sessions</p>
+                    <p className="text-xs text-gray-500">You will be logged out from all devices</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-medium self-start sm:self-auto"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+
             </div>
           )}
 
           {/* ==== PROFILE ==== */}
           {activeTab === 'profile' && (
-            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 max-w-2xl shadow-sm">
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-6 text-center sm:text-left">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-red-500/30 flex-shrink-0">
-                  {(user?.name || 'User').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase()}
-                </div>
-                <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900">{user?.name || 'User'}</h3>
-                  <p className="text-gray-500 text-sm break-all">{user?.email || 'email@example.com'}</p>
+            <div className="space-y-4 sm:space-y-6 max-w-4xl">
+
+              {/* Profile Header */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white font-bold text-3xl shadow-lg shadow-red-500/30 flex-shrink-0">
+                    {(user?.name || 'User').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase()}
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-2xl font-bold text-gray-900">{user?.name || 'User'}</h2>
+                    <p className="text-gray-500 text-sm mt-1">{user?.email || 'email@example.com'}</p>
+                    <div className="flex flex-wrap gap-2 mt-3 justify-center sm:justify-start">
+                      <span className="text-xs font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                        Active
+                      </span>
+                      <span className="text-xs font-medium text-red-600 bg-red-50 px-3 py-1 rounded-full">
+                        Salesforce User
+                      </span>
+                      <span className="text-xs font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                        OAuth 2.0
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-3 sm:space-y-4">
-                <div className="py-3 border-b border-gray-100">
-                  <p className="text-xs text-gray-500">Full Name</p>
-                  <p className="font-medium text-gray-900 text-sm">{user?.name || '—'}</p>
+              {/* Personal Information */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900">Personal Information</h3>
                 </div>
-                <div className="py-3 border-b border-gray-100">
-                  <p className="text-xs text-gray-500">Email</p>
-                  <p className="font-medium text-gray-900 text-sm break-all">{user?.email || '—'}</p>
-                </div>
-                <div className="py-3 border-b border-gray-100">
-                  <p className="text-xs text-gray-500">User ID</p>
-                  <p className="font-medium text-gray-900 text-xs break-all">{user?.userId || '—'}</p>
+                <div className="space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Full Name</p>
+                    <p className="text-sm font-semibold text-gray-900">{user?.name || '—'}</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Email Address</p>
+                    <p className="text-sm font-semibold text-gray-900 break-all">{user?.email || '—'}</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <p className="text-sm font-medium text-gray-500">User ID</p>
+                    <p className="text-xs font-mono text-gray-700 break-all">{user?.userId || '—'}</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Username</p>
+                    <p className="text-sm font-semibold text-gray-900 break-all">
+                      {user?.email?.split('@')[0] || '—'}
+                    </p>
+                  </div>
                 </div>
               </div>
+
+              {/* Organization Details */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900">Organization Details</h3>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Organization</p>
+                    <p className="text-sm font-semibold text-gray-900">CloudVandana Dev Org</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Edition</p>
+                    <p className="text-sm font-semibold text-gray-900">Developer Edition</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Role</p>
+                    <p className="text-sm font-semibold text-gray-900">System Administrator</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Instance URL</p>
+                    <p className="text-xs font-mono text-gray-700 break-all">
+                      orgfarm-70f99a97f1-dev-ed.develop.my.salesforce.com
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Session Details */}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900">Session Details</h3>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Login Time</p>
+                    <p className="text-sm font-semibold text-gray-900">
+                      {new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 border-b border-gray-100 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Session Duration</p>
+                    <p className="text-sm font-semibold text-gray-900">8 hours</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 gap-2">
+                    <p className="text-sm font-medium text-gray-500">Status</p>
+                    <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1 self-start sm:self-auto">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                      Active
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Danger Zone */}
+              <div className="bg-white p-6 rounded-xl border border-red-200 shadow-sm">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900">Account Actions</h3>
+                    <p className="text-xs text-gray-500">Sign out options</p>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div>
+                    <p className="font-medium text-gray-900 text-sm">Logout from Salesforce</p>
+                    <p className="text-xs text-gray-500">End your current session</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-medium self-start sm:self-auto flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    Logout
+                  </button>
+                </div>
+              </div>
+
             </div>
           )}
+
         </main>
       </div>
 

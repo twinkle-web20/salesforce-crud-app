@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 
 const OBJECTS = [
-  { name: 'Account',     icon: '🏢' },
-  { name: 'Opportunity', icon: '💰' },
-  { name: 'Lead',        icon: '🎯' },
-  { name: 'Contact',     icon: '👤' },
-  { name: 'Case',        icon: '📋' },
+  { name: 'Account',     icon: '' },
+  { name: 'Opportunity', icon: '' },
+  { name: 'Lead',        icon: '' },
+  { name: 'Contact',     icon: '' },
+  { name: 'Case',        icon: '' },
 ];
 
 export default function ObjectDropdown({ value, onChange }) {
