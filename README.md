@@ -21,25 +21,6 @@ A modern full-stack web application that performs CRUD (Create, Read, Update, De
 - ✅ **Toast Notifications** for user feedback
 - ✅ **Session Management** with secure cookies
 
-## 📸 Screenshots
-
-### Login Page
-![Login](screenshots/login.png)
-
-### Dashboard
-![Dashboard](screenshots/dashboard.png)
-
-### Records Table
-![Records](screenshots/records.png)
-
-### Create/Edit Modal
-![Modal](screenshots/modal.png)
-
-### Settings Page
-![Settings](screenshots/settings.png)
-
-### Profile Page
-![Profile](screenshots/profile.png)
 
 ## 🛠️ Tech Stack
 
